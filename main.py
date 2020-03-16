@@ -23,7 +23,7 @@ class Mythread(QThread):
             self._signal_progress_info.emit()
             self._signal_train_button_ctrl.emit()
             # 让程序休眠
-            time.sleep(0.5)
+            time.sleep(1.5)
 
 
 
