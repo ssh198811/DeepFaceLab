@@ -1,11 +1,14 @@
 from PyQt5.QtWidgets import QApplication, QMainWindow, QFileDialog
-from PyQt5.QtCore import pyqtSignal, QThread, Qt
+from PyQt5.QtCore import pyqtSignal, QThread, Qt, QUrl
+from PyQt5 import QtGui
+from PyQt5.QtGui import QIcon, QDesktopServices
 from ui import mainWindow_test
 import subprocess
 import operator
 # global params
 from ui import InfoNotifier
 from ui import UIParamReflect
+
 import qdarkstyle
 import os
 
@@ -413,15 +416,15 @@ if __name__ == "__main__":
             saved_models_names_quick96 = []
             for filepath in pathex.get_file_paths(saved_models_path):
                 filepath_name = filepath.name
-                model_name_tmp = (filepath_name.split('_')[0], os.path.getmtime(filepath))
-                if filepath_name.endswith(f'{model_class_names[0]}_data.dat'):
+                model_name_tmp = ""
+                if filepath_name.endswith('SAEHD_data.dat'):
+                    model_name_tmp = filepath_name[0:len(filepath_name)-len('_SAEHD_data.dat')]
                     saved_models_names_saehd += [model_name_tmp]
-                    if model_class_name == "SAEHD":
-                        InfoNotifier.InfoNotifier.g_progress_info.append(f"高配算法可选模型 {model_name_tmp[0]}")
-                if filepath_name.endswith(f'{model_class_names[1]}_data.dat'):
+                    InfoNotifier.InfoNotifier.g_progress_info.append(f"高配算法可选模型 {model_name_tmp}")
+                if filepath_name.endswith('Quick96_data.dat'):
+                    model_name_tmp = filepath_name[0:len(filepath_name) - len('_Quick96_data.dat')]
                     saved_models_names_quick96 += [model_name_tmp]
-                    if model_class_name == "Quick96":
-                        InfoNotifier.InfoNotifier.g_progress_info.append(f"低配算法可选模型 {model_name_tmp[0]}")
+                    InfoNotifier.InfoNotifier.g_progress_info.append(f"低配算法可选模型 {model_name_tmp}")
 
             # 处理上一次模型训练但是没有模型的情况
             if UIParamReflect.UIParam2Config.bUseLastModel is True:
@@ -439,12 +442,12 @@ if __name__ == "__main__":
             if UIParamReflect.UIParam2Config.bUseOldModel is True:
                 if model_class_name == "SAEHD":
                     for exist_model in saved_models_names_saehd:
-                        if UIParamReflect.UIParam2Config.modelname == exist_model[0]:
+                        if UIParamReflect.UIParam2Config.modelname == exist_model:
                             find_model = True
                             break
                 if model_class_name == "Quick96":
                     for exist_model in saved_models_names_quick96:
-                        if UIParamReflect.UIParam2Config.modelname == exist_model[0]:
+                        if UIParamReflect.UIParam2Config.modelname == exist_model:
                             find_model = True
                             break
 
@@ -453,13 +456,13 @@ if __name__ == "__main__":
                 else:
                     InfoNotifier.InfoNotifier.g_progress_info.append(f"输入的模型: {UIParamReflect.UIParam2Config.modelname} 不存在, 请重新输入正确的模型名称")
                     if model_class_name == "SAEHD" and len(saved_models_names_saehd) != 0:
-                        InfoNotifier.InfoNotifier.g_progress_info.append("可选旧模型为如下：")
+                        InfoNotifier.InfoNotifier.g_progress_info.append("可选旧高配模型为如下：")
                         for exist_model in saved_models_names_saehd:
-                            InfoNotifier.InfoNotifier.g_progress_info.append(f"高配算法模型 :{exist_model[0]}")
+                            InfoNotifier.InfoNotifier.g_progress_info.append(f"高配算法模型 :{exist_model}")
                     if model_class_name == "Quick96" and len(saved_models_names_quick96) != 0:
-                        InfoNotifier.InfoNotifier.g_progress_info.append("可选旧模型为如下：")
+                        InfoNotifier.InfoNotifier.g_progress_info.append("可选旧低配模型为如下：")
                         for exist_model in saved_models_names_quick96:
-                            InfoNotifier.InfoNotifier.g_progress_info.append(f"高配算法模型 :{exist_model[0]}")
+                            InfoNotifier.InfoNotifier.g_progress_info.append(f"低配算法模型 :{exist_model}")
                     UIParamReflect.GlobalConfig.b_training_call_in_progress = False
                     return
 
@@ -570,8 +573,8 @@ if __name__ == "__main__":
             self.update_ui_src_info()
 
         def update_ui_dst_info(self):
-            self.ui.label_dst_merge_dir.setText(self.dst_merge_dir)
-            self.ui.label_result_dir.setText(self.result_dir)
+            self.ui.le_dst_merge_dir.setText(self.dst_merge_dir)
+            self.ui.le_result_dir.setText(self.result_dir)
 
             # 处理目标视频是否有提取关键帧数据
             dst_file_png_count = 0
@@ -641,7 +644,7 @@ if __name__ == "__main__":
                     self.src_file_png_count +=1
                 if filepath_name.endswith('.jpg'):
                     self.src_file_jpg_count += 1
-            self.ui.label_src_dir.setText(self.src_dir)
+            self.ui.le_src_dir.setText(self.src_dir)
             self.ui.label_src_file_count.setText("共有%d个png文件，%d个jpg文件"%(self.src_file_png_count,self.src_file_jpg_count))
             if self.src_file_png_count != 0 or self.src_file_jpg_count !=0 :
                 self.ui.label_src_suggest.setText("存在剑三原始数据，可以 '开始提取人脸' ")
@@ -657,7 +660,7 @@ if __name__ == "__main__":
                     self.src_align_file_png_count +=1
                 if filepath_name.endswith('.jpg'):
                     self.src_align_file_jpg_count += 1
-            self.ui.label_src_align_dir.setText(self.src_align_dir)
+            self.ui.le_src_align_dir.setText(self.src_align_dir)
             self.ui.label_src_align_file_count.setText("共有%d个png文件，%d个jpg文件"%(self.src_align_file_png_count,self.src_align_file_jpg_count))
             if self.src_align_file_png_count != 0 or self.src_align_file_jpg_count !=0 :
                 self.ui.label_src_align_suggest.setText("该目录存在人脸资源，继续提取将会覆盖原始文件")
@@ -885,15 +888,10 @@ if __name__ == "__main__":
 
             if model_file_name.endswith('Quick96_data.dat'):
                 self.merge_model_class = "Quick96"
+                self.merge_model_name = model_file_name[0:len(model_file_name) - len('_Quick96_data.dat')]
             if model_file_name.endswith('SAEHD_data.dat'):
                 self.merge_model_class = "SAEHD"
-
-            modelsplit = model_file_name.split('_')
-            self.merge_model_name = modelsplit[0]
-
-            for splitIdx in range(1, len(modelsplit)-2):
-                self.merge_model_name += "_"+modelsplit[splitIdx]
-
+                self.merge_model_name = model_file_name[0:len(model_file_name) - len('_SAEHD_data.dat')]
 
 
         def EditDstDir(self):
@@ -989,13 +987,20 @@ if __name__ == "__main__":
         def merge_video(self):
             self.merge_to_mp4()
 
+        def go_to_src(self):
+            QDesktopServices.openUrl(QUrl.fromLocalFile(self.src_dir))
+
 
     QApplication.setAttribute(Qt.AA_EnableHighDpiScaling)
     app = QApplication(sys.argv)
 
+    icon = QIcon()
+    icon.addPixmap(QtGui.QPixmap("ui\\icons.tga"),QtGui.QIcon.Normal, QtGui.QIcon.Off)
 
     window = ApplicationWindow()
     app.setStyleSheet(qdarkstyle.load_stylesheet_pyqt5())
+    window.setWindowIcon(icon)
+    window.setFixedSize(1058,833)
     window.show()
 
     sys.exit(app.exec_())
