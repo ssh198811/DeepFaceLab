@@ -427,9 +427,11 @@ if __name__ == "__main__":
             if UIParamReflect.UIParam2Config.bUseLastModel is True:
                 if model_class_name == "SAEHD" and len(saved_models_names_saehd) == 0:
                     InfoNotifier.InfoNotifier.g_progress_info.append("'继续上一次的训练配置'使用高配算法，但没有可用模型! 请使用'新建一个训练模型'创建新模型")
+                    UIParamReflect.GlobalConfig.b_training_call_in_progress = False
                     return
                 if model_class_name == "Quick96" and len(saved_models_names_quick96) == 0:
                     InfoNotifier.InfoNotifier.g_progress_info.append("'继续上一次的训练配置'使用低配算法，但没有可用模型! 请使用'新建一个训练模型'创建新模型")
+                    UIParamReflect.GlobalConfig.b_training_call_in_progress = False
                     return
 
             # 处理旧模型找到或找不到模型的逻辑
@@ -458,6 +460,7 @@ if __name__ == "__main__":
                         InfoNotifier.InfoNotifier.g_progress_info.append("可选旧模型为如下：")
                         for exist_model in saved_models_names_quick96:
                             InfoNotifier.InfoNotifier.g_progress_info.append(f"高配算法模型 :{exist_model[0]}")
+                    UIParamReflect.GlobalConfig.b_training_call_in_progress = False
                     return
 
 
@@ -486,7 +489,9 @@ if __name__ == "__main__":
         def run(self):
             self.StartMerge()
 
-        def set_dir(self, saved_model_path = "", input_path = "", output_path = "", output_mask_path = "", aligned_path = ""):
+        def set_dir(self, merge_model_class = "", merge_model_name = "", saved_model_path = "", input_path = "", output_path = "", output_mask_path = "", aligned_path = ""):
+            self.merge_model_class = merge_model_class
+            self.merge_model_name = merge_model_name
             self.saved_model_path = saved_model_path
             self.input_path = input_path
             self.output_path = output_path
@@ -495,13 +500,11 @@ if __name__ == "__main__":
 
         def StartMerge(self):
             osex.set_process_lowest_prio()
-            if UIParamReflect.UIParam2Config.bUseSAEHD:
-                model_class_name = "SAEHD"
-            else:
-                model_class_name = "Quick96"
+
+            UIParamReflect.UIParam2Config.merge_model_name = self.merge_model_name
 
             from mainscripts import Merger
-            Merger.main(model_class_name=model_class_name,
+            Merger.main(model_class_name=self.merge_model_class,
                         saved_models_path=Path(self.saved_model_path),
                         training_data_src_path=None,
                         force_model_name=None,
@@ -567,8 +570,6 @@ if __name__ == "__main__":
             self.update_ui_src_info()
 
         def update_ui_dst_info(self):
-            self.ui.label_dst_dir.setText(self.workspace_dir)
-            self.ui.label_dst_align_dir.setText(self.dst_align_dir)
             self.ui.label_dst_merge_dir.setText(self.dst_merge_dir)
             self.ui.label_result_dir.setText(self.result_dir)
 
@@ -581,9 +582,9 @@ if __name__ == "__main__":
                     dst_file_png_count +=1
                 if filepath_name.endswith('.jpg'):
                     dst_file_jpg_count += 1
-            self.ui.label_dst_file_count.setText("共有%d个png文件，%d个jpg文件"%(dst_file_png_count,dst_file_jpg_count))
+
             if dst_file_png_count != 0 or dst_file_jpg_count !=0 :
-                self.ui.label_dst_suggest.setText("存在目标视频帧数据，可以执行下一步'开始提取人脸' ")
+                self.ui.label_dst_suggest.setText(f"输出帧目录存在 png {dst_file_png_count}  jpg {dst_file_jpg_count}，可以执行下一步'开始提取人脸' ")
             else:
                 self.ui.label_dst_suggest.setText("不存在目标视频帧数据，需要先执行'开始提取图像'")
 
@@ -596,9 +597,9 @@ if __name__ == "__main__":
                     dst_file_png_count +=1
                 if filepath_name.endswith('.jpg'):
                     dst_file_jpg_count += 1
-            self.ui.label_dst_aligned_file_count.setText("共有%d个png文件，%d个jpg文件"%(dst_file_png_count,dst_file_jpg_count))
+
             if dst_file_png_count != 0 or dst_file_jpg_count !=0 :
-                self.ui.label_dst_aligned_suggest.setText("已有人脸提取数据，可以进行下一步'模型训练阶段' ")
+                self.ui.label_dst_aligned_suggest.setText(f"输出目录已有人脸提取数据 png {dst_file_png_count} jpg {dst_file_jpg_count} ，可以进行下一步'模型训练阶段' ")
             else:
                 self.ui.label_dst_aligned_suggest.setText("不存在人脸提取数据，请先'开始提取人脸'")
 
@@ -680,6 +681,15 @@ if __name__ == "__main__":
                 self.ui.pushButton.setEnabled(True)
                 self.ui.pb_save.setEnabled(True)
                 self.ui.pb_end.setEnabled(True)
+
+                if UIParamReflect.UIParam2Config.train_state == 0:
+                    self.ui.pushButton.setEnabled(True)
+                    self.ui.pb_save.setEnabled(False)
+                    self.ui.pb_end.setEnabled(False)
+                elif UIParamReflect.UIParam2Config.train_state == 1:
+                    self.ui.pushButton.setEnabled(False)
+                    self.ui.pb_save.setEnabled(True)
+                    self.ui.pb_end.setEnabled(True)
 
         def StartTrain(self):
             self.update_ui_progress_info("\n-----------------开始训练-----------------")
@@ -832,6 +842,8 @@ if __name__ == "__main__":
             self.ori_dst_video_path = input_file
             self.update_ui_progress_info("\n图像提取路径:" + output_dir)
 
+            self.update_ui_progress_info("\n图像输出路径:" + self.dst_dir)
+
             # if self.ui.rb_export_png.isChecked():
             #  output_ext = "png"
             # if self.ui.rb_export_jpg.isChecked():
@@ -857,6 +869,32 @@ if __name__ == "__main__":
                 return
             self.ui.le_data_dst_path.setText(fileName_choose)
             InfoNotifier.InfoNotifier.g_progress_info.append("选择视频路径:" + fileName_choose)
+
+        def ChooseModelDir(self):
+            model_path_choose, filetype = QFileDialog.getOpenFileName(self, "选取文件",
+                                                                    self.cwd + "\\workspace\\model",  # 起始路径
+                                                                    "model Files (*_data.dat)")  # 设置文件扩展名过滤,用双分号间隔
+            if model_path_choose == "":
+                print("\n取消选择")
+                return
+            self.ui.le_model_path.setText(model_path_choose)
+            InfoNotifier.InfoNotifier.g_progress_info.append("选择模型路径:" + model_path_choose)
+
+            model_file_name = os.path.basename(model_path_choose)
+
+
+            if model_file_name.endswith('Quick96_data.dat'):
+                self.merge_model_class = "Quick96"
+            if model_file_name.endswith('SAEHD_data.dat'):
+                self.merge_model_class = "SAEHD"
+
+            modelsplit = model_file_name.split('_')
+            self.merge_model_name = modelsplit[0]
+
+            for splitIdx in range(1, len(modelsplit)-2):
+                self.merge_model_name += "_"+modelsplit[splitIdx]
+
+
 
         def EditDstDir(self):
             dir_path = Path(self.ui.le_data_dst_path.text())
@@ -920,7 +958,7 @@ if __name__ == "__main__":
             QApplication.processEvents()
             self.mergeThread = My_merge_thread()
 
-            self.mergeThread.set_dir(self.model_save_path, self.dst_dir, self.dst_merge_dir, self.dst_merge_mask_dir,
+            self.mergeThread.set_dir(self.merge_model_class, self.merge_model_name, self.model_save_path, self.dst_dir, self.dst_merge_dir, self.dst_merge_mask_dir,
                                      self.dst_align_dir)
 
             self.mergeThread.start()

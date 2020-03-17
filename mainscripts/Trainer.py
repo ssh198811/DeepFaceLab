@@ -209,6 +209,7 @@ def trainerThread (s2c, c2s, e,
                         InfoNotifier.InfoNotifier.g_progress_info.append("-----------------模型训练结果保存完毕-----------------")
                         InfoNotifier.InfoNotifier.g_progress_info.append("-----------------模型退出训练-----------------")
                         UIParamReflect.GlobalConfig.b_training_call_in_progress = False
+                        UIParamReflect.UIParam2Config.train_state = 0
                         i = -1
                         break
 
@@ -241,6 +242,7 @@ def main(**kwargs):
 
     e.wait() #Wait for inital load to occur.
     UIParamReflect.GlobalConfig.b_training_call_in_progress = False
+    UIParamReflect.UIParam2Config.train_state = 1
 
     if no_preview:
         while True:

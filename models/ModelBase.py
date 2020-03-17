@@ -81,14 +81,19 @@ class ModelBase(object):
                 # except:
                 #     pass
 
-            if UIParamReflect.UIParam2Config.bUseLastModel:
-                self.model_name = saved_models_names[0]
-            elif UIParamReflect.UIParam2Config.bUseNewModel:
-                self.model_name = UIParamReflect.UIParam2Config.modelname
-            elif UIParamReflect.UIParam2Config.bUseOldModel:
-                self.model_name = UIParamReflect.UIParam2Config.modelname
+            if is_training is True:
+                if UIParamReflect.UIParam2Config.bUseLastModel:
+                    self.model_name = saved_models_names[0]
+                elif UIParamReflect.UIParam2Config.bUseNewModel:
+                    self.model_name = UIParamReflect.UIParam2Config.modelname
+                elif UIParamReflect.UIParam2Config.bUseOldModel:
+                    self.model_name = UIParamReflect.UIParam2Config.modelname
 
-            io.log_info("model choice "+ self.model_name)
+                io.log_info("training model choice " + self.model_name)
+            else:
+                self.model_name = UIParamReflect.UIParam2Config.merge_model_name
+                io.log_info("mergeing model choice " + self.model_name)
+
 
                 #     if model_idx == -1:
                 #         if len(inp) == 1:

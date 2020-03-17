@@ -18,6 +18,7 @@ class UIParam2Config:
 
     bSaveOnce = False
     bStopTrain = False
+    train_state = 0 # 0 not training 1 in training
 
     #train params SAE
     auto_backup = 0
@@ -46,6 +47,7 @@ class UIParam2Config:
     enable_pretrain_model = False
 
     #merge pic
+    merge_model_name = ""
     b_use_interactive_merger = False
     merger_mode = 3
     mask_mode = 1
