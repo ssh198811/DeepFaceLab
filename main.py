@@ -1,5 +1,5 @@
-from PyQt5.QtWidgets import QApplication, QMainWindow, QFileDialog
-from PyQt5.QtCore import pyqtSignal, QThread, Qt, QUrl
+from PyQt5.QtWidgets import QApplication, QMainWindow, QFileDialog, QMenu
+from PyQt5.QtCore import pyqtSignal, QThread, Qt, QUrl, QPoint
 from PyQt5 import QtGui
 from PyQt5.QtGui import QIcon, QDesktopServices
 from ui import mainWindow_test
@@ -987,8 +987,33 @@ if __name__ == "__main__":
         def merge_video(self):
             self.merge_to_mp4()
 
-        def go_to_src(self):
-            QDesktopServices.openUrl(QUrl.fromLocalFile(self.src_dir))
+        def go_to_src(self, pos):
+            menu = QMenu()
+            opt = menu.addAction("打开所在文件夹")
+            action = menu.exec_(self.ui.le_src_dir.mapToGlobal(pos))
+            if action == opt:
+                QDesktopServices.openUrl(QUrl.fromLocalFile(self.src_dir))
+
+        def go_to_src_align(self, pos):
+            menu = QMenu()
+            opt = menu.addAction("打开所在文件夹")
+            action = menu.exec_(self.ui.le_src_align_dir.mapToGlobal(pos))
+            if action == opt:
+                QDesktopServices.openUrl(QUrl.fromLocalFile(self.src_align_dir))
+
+        def go_to_dst_merge(self, pos):
+            menu = QMenu()
+            opt = menu.addAction("打开所在文件夹")
+            action = menu.exec_(self.ui.le_dst_merge_dir.mapToGlobal(pos))
+            if action == opt:
+                QDesktopServices.openUrl(QUrl.fromLocalFile(self.dst_merge_dir))
+
+        def go_to_result(self, pos):
+            menu = QMenu()
+            opt = menu.addAction("打开所在文件夹")
+            action = menu.exec_(self.ui.le_result_dir.mapToGlobal(pos))
+            if action == opt:
+                QDesktopServices.openUrl(QUrl.fromLocalFile(self.result_dir))
 
 
     QApplication.setAttribute(Qt.AA_EnableHighDpiScaling)
@@ -1000,7 +1025,7 @@ if __name__ == "__main__":
     window = ApplicationWindow()
     app.setStyleSheet(qdarkstyle.load_stylesheet_pyqt5())
     window.setWindowIcon(icon)
-    window.setFixedSize(1058,833)
+    window.setFixedSize(1058,467)
     window.show()
 
     sys.exit(app.exec_())
