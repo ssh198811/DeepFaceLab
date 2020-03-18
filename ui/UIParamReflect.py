@@ -65,6 +65,7 @@ class UIParam2Config:
 
     #merge video
     bit_rate = 16
+    default_fps = 25
 
 class GlobalConfig:
     ffmpeg_cmd_path = ""

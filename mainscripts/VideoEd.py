@@ -192,7 +192,9 @@ def video_from_sequence( input_dir, output_file, reference_file=None, ext=None, 
 
     if fps is None:
         #if fps not specified and not overwritten by reference-file
-        fps = max (1, io.input_int ("Enter FPS", 25) )
+        #ps = max (1, io.input_int ("Enter FPS", 25) )
+        fps = UIParamReflect.UIParam2Config.default_fps
+        InfoNotifier.InfoNotifier.g_progress_info.append(f"默认合成帧率：{fps}")
 
     if not lossless and bitrate is None:
         # bitrate = max (1, io.input_int ("Bitrate of output file in MB/s", 16) )

@@ -970,7 +970,7 @@ if __name__ == "__main__":
             from mainscripts import VideoEd
             VideoEd.video_from_sequence (input_dir      = Path(self.dst_merge_dir),
                                          output_file    = Path(self.workspace_dir + "/result.mp4"),
-                                         reference_file = Path(self.workspace_dir + "/data_dst.mp4"),  #need ori video path
+                                         reference_file = None, # Path(self.workspace_dir + "/data_dst.mp4"),  #need ori video path
                                          ext      = "png",  #need ori image format
                                          fps      = None,
                                          bitrate  = None,
