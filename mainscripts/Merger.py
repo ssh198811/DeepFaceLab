@@ -309,8 +309,8 @@ class MergeSubprocessor(Subprocessor):
         for i in range( len(self.frames) ):
             frame = self.frames[i]
             frame.idx = i
-            frame.output_filepath      = self.output_path      / ( frame.frame_info.filepath.stem + '.png' )
-            frame.output_mask_filepath = self.output_mask_path / ( frame.frame_info.filepath.stem + '.png' )
+            frame.output_filepath      = self.output_path      / ( frame.frame_info.filepath.stem + '.jpg' )
+            frame.output_mask_filepath = self.output_mask_path / ( frame.frame_info.filepath.stem + '.jpg' )
             
             if not frame.output_filepath.exists() or \
                not frame.output_mask_filepath.exists():

@@ -1,4 +1,4 @@
-from PyQt5.QtWidgets import QApplication, QMainWindow, QFileDialog, QMenu
+from PyQt5.QtWidgets import QApplication, QMainWindow, QFileDialog, QMenu, QMessageBox
 from PyQt5.QtCore import pyqtSignal, QThread, Qt, QUrl, QPoint
 from PyQt5 import QtGui
 from PyQt5.QtGui import QIcon, QDesktopServices
@@ -485,6 +485,7 @@ if __name__ == "__main__":
 
     class My_merge_thread(QThread):
         # 定义信号,定义参数为str类型
+        _signal_update_dst_info = pyqtSignal()
 
         def __init__(self):
             super(My_merge_thread, self).__init__()
@@ -520,6 +521,9 @@ if __name__ == "__main__":
 
             InfoNotifier.InfoNotifier.g_progress_info.append("-----------------单帧合成图片完毕-----------------")
             QApplication.processEvents()
+
+            self._signal_update_dst_info.emit()
+
 
     class ApplicationWindow(QMainWindow):
 
@@ -572,6 +576,43 @@ if __name__ == "__main__":
             self.update_ui_dst_info()
             self.update_ui_src_info()
 
+        def validate(self, type = ""): # type "train" "mergePic" "mergeVideo"
+            dst_align_file_count = 0
+            src_align_file_count = 0
+            dst_merge_file_count = 0
+
+            for filepath in pathex.get_file_paths(self.dst_align_dir):
+                filepath_name = filepath.name
+                if filepath_name.endswith('.png') or filepath_name.endswith('.jpg'):
+                    dst_align_file_count +=1
+
+            for filepath in pathex.get_file_paths(self.src_align_dir):
+                filepath_name = filepath.name
+                if filepath_name.endswith('.png') or filepath_name.endswith('.jpg'):
+                    src_align_file_count +=1
+
+            for filepath in pathex.get_file_paths(self.dst_merge_dir):
+                filepath_name = filepath.name
+                if filepath_name.endswith('.png') or filepath_name.endswith('.jpg'):
+                    dst_merge_file_count +=1
+
+            if type is "train":
+                if dst_align_file_count is 0 and src_align_file_count is 0:
+                    reply = QMessageBox.information(self,   "操作提示", "不存在可训练的数据，请检查data_dst/align和data_src/align目录",QMessageBox.Ok)
+                    return False
+
+            if type is "mergePic":
+                 if self.ui.le_model_path.text() is "":
+                    reply = QMessageBox.information(self, "操作提示", "无法合成，请先选择换脸所需要的模型!",QMessageBox.Ok)
+                    return False
+
+            if type is "mergeVideo":
+                if dst_merge_file_count is 0:
+                    reply = QMessageBox.information(self, "操作提示", "无法合成视频，请先逐帧生成图片!",QMessageBox.Ok)
+                    return False
+
+            return True
+
         def update_ui_dst_info(self):
             self.ui.le_dst_merge_dir.setText(self.dst_merge_dir)
             self.ui.le_result_dir.setText(self.result_dir)
@@ -620,6 +661,7 @@ if __name__ == "__main__":
                 self.ui.label_dst_merge_suggest.setText("已存在视频帧的替换结果，可以进行'合成视频' ")
             else:
                 self.ui.label_dst_merge_suggest.setText("不存在视频帧替换的数据，请先'逐帧合成'")
+            QApplication.processEvents()
 
         def update_src(self):
             if self.ui.rb_j3_m_adult.isChecked():       # 成男模型
@@ -695,6 +737,9 @@ if __name__ == "__main__":
                     self.ui.pb_end.setEnabled(True)
 
         def StartTrain(self):
+            if self.validate(type = "train") is False:
+                return
+
             self.update_ui_progress_info("\n-----------------开始训练-----------------")
             QApplication.processEvents()
             self.update_src()
@@ -952,18 +997,23 @@ if __name__ == "__main__":
             self.update_ui_src_info()
 
         def merge_src_to_dst(self):
+            if self.validate(type = "mergePic") is False:
+                return
+
             self.update_ui_progress_info("\n-----------------开始逐帧替换人脸-----------------")
             QApplication.processEvents()
             self.mergeThread = My_merge_thread()
+            self.mergeThread._signal_update_dst_info.connect(self.update_ui_dst_info)
 
             self.mergeThread.set_dir(self.merge_model_class, self.merge_model_name, self.model_save_path, self.dst_dir, self.dst_merge_dir, self.dst_merge_mask_dir,
                                      self.dst_align_dir)
 
             self.mergeThread.start()
-            #更新一下信息
-            self.update_ui_dst_info()
 
         def merge_to_mp4(self):
+            if self.validate(type = "mergeVideo") is False:
+                return
+
             self.update_ui_progress_info("-----------------开始合成最终视频-----------------")
             QApplication.processEvents()
             osex.set_process_lowest_prio()
@@ -971,7 +1021,7 @@ if __name__ == "__main__":
             VideoEd.video_from_sequence (input_dir      = Path(self.dst_merge_dir),
                                          output_file    = Path(self.workspace_dir + "/result.mp4"),
                                          reference_file = None, # Path(self.workspace_dir + "/data_dst.mp4"),  #need ori video path
-                                         ext      = "png",  #need ori image format
+                                         ext      = "jpg",  #need ori image format
                                          fps      = None,
                                          bitrate  = None,
                                          include_audio = False,
@@ -1025,7 +1075,7 @@ if __name__ == "__main__":
     window = ApplicationWindow()
     app.setStyleSheet(qdarkstyle.load_stylesheet_pyqt5())
     window.setWindowIcon(icon)
-    window.setFixedSize(1058,467)
+    window.setFixedSize(1058,482)
     window.show()
 
     sys.exit(app.exec_())
