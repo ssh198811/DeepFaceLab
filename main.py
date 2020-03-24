@@ -628,9 +628,9 @@ if __name__ == "__main__":
                     dst_file_jpg_count += 1
 
             if dst_file_png_count != 0 or dst_file_jpg_count !=0 :
-                self.ui.label_dst_suggest.setText(f"输出帧目录存在png {dst_file_png_count} jpg {dst_file_jpg_count}，可以'开始提取人脸' ")
+                self.ui.label_dst_suggest.setText(f"data_dst目录存在图片{dst_file_png_count+dst_file_jpg_count}个，可以'开始提取人脸' ")
             else:
-                self.ui.label_dst_suggest.setText("不存在目标视频帧数据，需要先执行'开始提取图像'")
+                self.ui.label_dst_suggest.setText("data_dst目录不存在数据，请先'开始提取图像'")
 
             # 处理目标视频帧是否有提取对齐后的人脸
             dst_file_png_count = 0
@@ -643,9 +643,9 @@ if __name__ == "__main__":
                     dst_file_jpg_count += 1
 
             if dst_file_png_count != 0 or dst_file_jpg_count !=0 :
-                self.ui.label_dst_aligned_suggest.setText(f"输出目录已有人脸提取数据 png {dst_file_png_count} jpg {dst_file_jpg_count} ，可以进入'模型训练阶段' ")
+                self.ui.label_dst_aligned_suggest.setText(f"data_dst/aligned目录已有图片 {dst_file_png_count+dst_file_jpg_count}个，可以进行训练")
             else:
-                self.ui.label_dst_aligned_suggest.setText("不存在人脸提取数据，请先'开始提取人脸'")
+                self.ui.label_dst_aligned_suggest.setText("data_dst/aligned目录不存在数据，请先'开始提取人脸'")
 
             # 合并替换图像
             dst_file_png_count = 0
@@ -687,11 +687,11 @@ if __name__ == "__main__":
                 if filepath_name.endswith('.jpg'):
                     self.src_file_jpg_count += 1
             self.ui.le_src_dir.setText(self.src_dir)
-            self.ui.label_src_file_count.setText("共有%d个png文件，%d个jpg文件"%(self.src_file_png_count,self.src_file_jpg_count))
+            self.ui.label_src_file_count.setText("共有%d个图像文件"%(self.src_file_png_count+self.src_file_jpg_count))
             if self.src_file_png_count != 0 or self.src_file_jpg_count !=0 :
-                self.ui.label_src_suggest.setText("存在剑三原始数据，可以 '开始提取人脸' ")
+                self.ui.label_src_suggest.setText("data_src目录存在剑三原始数据，可以 '开始提取人脸' ")
             else:
-                self.ui.label_src_suggest.setText("不存在剑三原始数据，请检查数据是否已经拷贝到了该目录")
+                self.ui.label_src_suggest.setText("data_src目录不存在剑三原始数据，请检查数据!")
 
             # 处理剑三是否有已经提取的人脸数据
             self.src_align_file_png_count = 0
@@ -703,11 +703,11 @@ if __name__ == "__main__":
                 if filepath_name.endswith('.jpg'):
                     self.src_align_file_jpg_count += 1
             self.ui.le_src_align_dir.setText(self.src_align_dir)
-            self.ui.label_src_align_file_count.setText("共有%d个png文件，%d个jpg文件"%(self.src_align_file_png_count,self.src_align_file_jpg_count))
+            self.ui.label_src_align_file_count.setText("共有%d个图像文件"%(self.src_align_file_png_count+self.src_align_file_jpg_count))
             if self.src_align_file_png_count != 0 or self.src_align_file_jpg_count !=0 :
-                self.ui.label_src_align_suggest.setText("该目录存在人脸资源，继续提取将会覆盖原始文件")
+                self.ui.label_src_align_suggest.setText("data_src/aligned目录存在人脸资源，继续提取将会覆盖原始文件")
             else:
-                self.ui.label_src_align_suggest.setText("不存在剑三人脸资源，提取先请确认原始资源存在!")
+                self.ui.label_src_align_suggest.setText("data_src/aligned目录不存在剑三人脸资源，提取先请确认原始资源存在!")
 
         def update_progress_info(self):
             for info in InfoNotifier.InfoNotifier.g_progress_info:
