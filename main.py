@@ -628,7 +628,7 @@ if __name__ == "__main__":
                     dst_file_jpg_count += 1
 
             if dst_file_png_count != 0 or dst_file_jpg_count !=0 :
-                self.ui.label_dst_suggest.setText(f"输出帧目录存在 png {dst_file_png_count}  jpg {dst_file_jpg_count}，可以执行下一步'开始提取人脸' ")
+                self.ui.label_dst_suggest.setText(f"输出帧目录存在png {dst_file_png_count} jpg {dst_file_jpg_count}，可以'开始提取人脸' ")
             else:
                 self.ui.label_dst_suggest.setText("不存在目标视频帧数据，需要先执行'开始提取图像'")
 
@@ -643,7 +643,7 @@ if __name__ == "__main__":
                     dst_file_jpg_count += 1
 
             if dst_file_png_count != 0 or dst_file_jpg_count !=0 :
-                self.ui.label_dst_aligned_suggest.setText(f"输出目录已有人脸提取数据 png {dst_file_png_count} jpg {dst_file_jpg_count} ，可以进行下一步'模型训练阶段' ")
+                self.ui.label_dst_aligned_suggest.setText(f"输出目录已有人脸提取数据 png {dst_file_png_count} jpg {dst_file_jpg_count} ，可以进入'模型训练阶段' ")
             else:
                 self.ui.label_dst_aligned_suggest.setText("不存在人脸提取数据，请先'开始提取人脸'")
 
@@ -1075,7 +1075,7 @@ if __name__ == "__main__":
     window = ApplicationWindow()
     app.setStyleSheet(qdarkstyle.load_stylesheet_pyqt5())
     window.setWindowIcon(icon)
-    window.setFixedSize(1058,482)
+    window.setFixedSize(1060,543)
     window.show()
 
     sys.exit(app.exec_())
