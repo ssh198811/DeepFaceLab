@@ -598,8 +598,8 @@ if __name__ == "__main__":
                     dst_merge_file_count +=1
 
             if type is "train":
-                if dst_align_file_count is 0 and src_align_file_count is 0:
-                    reply = QMessageBox.information(self,   "操作提示", "不存在可训练的数据，请检查data_dst/align和data_src/align目录",QMessageBox.Ok)
+                if dst_align_file_count is 0 or src_align_file_count is 0:
+                    reply = QMessageBox.information(self,   "操作提示", "不存在可训练的数据，请检查data_dst/aligned和data_src/(xxx)/aligned目录",QMessageBox.Ok)
                     return False
 
             if type is "mergePic":
@@ -984,6 +984,13 @@ if __name__ == "__main__":
             UIParamReflect.GlobalConfig.b_sync_block_op_in_progress = True
             QApplication.processEvents()
             osex.set_process_lowest_prio()
+
+
+            if self.ui.rb_extract_dst_face_cpu.isChecked():
+                self.extract_dst_face_use_cpu = True
+            else:
+                self.extract_dst_face_use_cpu = False
+            
             from mainscripts import Extractor
             Extractor.main(detector='s3fd',
                            input_path=Path(self.dst_dir),
@@ -993,7 +1000,7 @@ if __name__ == "__main__":
                            manual_output_debug_fix=False,
                            manual_window_size=1368,
                            face_type='full_face',
-                           cpu_only=False,
+                           cpu_only= self.extract_dst_face_use_cpu,
                            force_gpu_idxs= None,
                            )
             self.update_ui_progress_info("-----------------人脸图像提取完毕-----------------")
@@ -1013,6 +1020,10 @@ if __name__ == "__main__":
             UIParamReflect.GlobalConfig.b_sync_block_op_in_progress = True
             QApplication.processEvents()
 
+            if self.ui.rb_extract_src_face_cpu.isChecked():
+                self.extract_src_face_use_cpu = True
+            else:
+                self.extract_src_face_use_cpu = False
 
             from mainscripts import Extractor
             Extractor.main(detector='s3fd',
@@ -1023,7 +1034,7 @@ if __name__ == "__main__":
                            manual_output_debug_fix=False,
                            manual_window_size=1368,
                            face_type='full_face',
-                           cpu_only=False,
+                           cpu_only=self.extract_src_face_use_cpu,
                            force_gpu_idxs= None,
                            )
             self.update_ui_progress_info("-----------------人脸剑三图像提取完毕-----------------")
@@ -1050,7 +1061,7 @@ if __name__ == "__main__":
         def merge_to_mp4(self):
             if self.validate(type = "mergeVideo") is False:
                 return
-            
+
             UIParamReflect.GlobalConfig.b_sync_block_op_in_progress = True
             self.update_ui_progress_info("-----------------开始合成最终视频-----------------")
             QApplication.processEvents()
