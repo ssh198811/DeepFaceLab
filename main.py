@@ -493,7 +493,7 @@ if __name__ == "__main__":
         def run(self):
             self.StartMerge()
 
-        def set_dir(self, merge_model_class = "", merge_model_name = "", saved_model_path = "", input_path = "", output_path = "", output_mask_path = "", aligned_path = ""):
+        def set_dir(self, merge_model_class = "", merge_model_name = "", saved_model_path = "", input_path = "", output_path = "", output_mask_path = "", aligned_path = "", merge_device_cpu = False):
             self.merge_model_class = merge_model_class
             self.merge_model_name = merge_model_name
             self.saved_model_path = saved_model_path
@@ -501,6 +501,7 @@ if __name__ == "__main__":
             self.output_path = output_path
             self.output_mask_path = output_mask_path
             self.aligned_path = aligned_path
+            self.merge_device_cpu = merge_device_cpu
 
         def StartMerge(self):
             osex.set_process_lowest_prio()
@@ -517,7 +518,7 @@ if __name__ == "__main__":
                         output_mask_path=Path(self.output_mask_path),
                         aligned_path=Path(self.aligned_path),
                         force_gpu_idxs=None,
-                        cpu_only=False)
+                        cpu_only=self.merge_device_cpu)
 
             InfoNotifier.InfoNotifier.g_progress_info.append("-----------------单帧合成图片完毕-----------------")
             UIParamReflect.GlobalConfig.b_sync_block_op_in_progress = False
@@ -610,6 +611,9 @@ if __name__ == "__main__":
             if type is "mergeVideo":
                 if dst_merge_file_count is 0:
                     reply = QMessageBox.information(self, "操作提示", "无法合成视频，请先逐帧生成图片!",QMessageBox.Ok)
+                    return False
+                if self.ui.le_dst_video_path.text() is "":
+                    reply = QMessageBox.information(self, "操作提示", "无法合成视频，请先选择目标视频!",QMessageBox.Ok)
                     return False
 
             return True
@@ -730,6 +734,7 @@ if __name__ == "__main__":
                 self.ui.pushButton_6.setEnabled(False)
                 self.ui.pushButton_7.setEnabled(False)
                 self.ui.pushButton_2.setEnabled(False)
+                self.ui.pushButton_8.setEnabled(False)
             else:
                 self.ui.pushButton_5.setEnabled(True)
                 self.ui.pb_open_data_dst_dir.setEnabled(True)
@@ -741,11 +746,20 @@ if __name__ == "__main__":
                 self.ui.pushButton_6.setEnabled(True)
                 self.ui.pushButton_7.setEnabled(True)
                 self.ui.pushButton_2.setEnabled(True)
+                self.ui.pushButton_8.setEnabled(True)
 
                 if UIParamReflect.GlobalConfig.b_training_call_in_progress is True:
+                    self.ui.pushButton_5.setEnabled(False)
+                    self.ui.pb_open_data_dst_dir.setEnabled(False)
+                    self.ui.pushButton_3.setEnabled(False)
+                    self.ui.pushButton_4.setEnabled(False)
                     self.ui.pushButton.setEnabled(False)
                     self.ui.pb_save.setEnabled(False)
                     self.ui.pb_end.setEnabled(False)
+                    self.ui.pushButton_6.setEnabled(False)
+                    self.ui.pushButton_7.setEnabled(False)
+                    self.ui.pushButton_2.setEnabled(False)
+                    self.ui.pushButton_8.setEnabled(False)
                 else:
                     self.ui.pushButton.setEnabled(True)
                     self.ui.pb_save.setEnabled(True)
@@ -769,6 +783,7 @@ if __name__ == "__main__":
             self.update_src()
 
             self.trainThread = My_train_thread()
+
             self.trainThread.set_dir(self.dst_align_dir, self.src_align_dir, self.models_path, self.pretrained_data_path
                                      , self.pretrained_model_path, self.model_save_path)
             self.trainThread.start()
@@ -945,6 +960,7 @@ if __name__ == "__main__":
                 print("\n取消选择")
                 return
             self.ui.le_data_dst_path.setText(fileName_choose)
+            self.ui.le_dst_video_path.setText(fileName_choose)
             InfoNotifier.InfoNotifier.g_progress_info.append("选择视频路径:" + fileName_choose)
 
 
@@ -1047,6 +1063,11 @@ if __name__ == "__main__":
             if self.validate(type = "mergePic") is False:
                 return
 
+            if self.ui.rb_merge_device_use_cpu.isChecked():
+                self.merge_device_cpu = True
+            else:
+                self.merge_device_cpu = False
+
             self.update_ui_progress_info("\n-----------------开始逐帧替换人脸-----------------")
             UIParamReflect.GlobalConfig.b_sync_block_op_in_progress = True
             QApplication.processEvents()
@@ -1054,7 +1075,7 @@ if __name__ == "__main__":
             self.mergeThread._signal_update_dst_info.connect(self.update_ui_dst_info)
 
             self.mergeThread.set_dir(self.merge_model_class, self.merge_model_name, self.model_save_path, self.dst_dir, self.dst_merge_dir, self.dst_merge_mask_dir,
-                                     self.dst_align_dir)
+                                     self.dst_align_dir, self.merge_device_cpu)
 
             self.mergeThread.start()
 
@@ -1069,11 +1090,11 @@ if __name__ == "__main__":
             from mainscripts import VideoEd
             VideoEd.video_from_sequence (input_dir      = Path(self.dst_merge_dir),
                                          output_file    = Path(self.workspace_dir + "/result.mp4"),
-                                         reference_file = None, # Path(self.workspace_dir + "/data_dst.mp4"),  #need ori video path
+                                         reference_file = self.ui.le_dst_video_path.text(), # Path(self.workspace_dir + "/data_dst.mp4"),  #need ori video path
                                          ext      = "jpg",  #need ori image format
                                          fps      = None,
                                          bitrate  = None,
-                                         include_audio = False,
+                                         include_audio = True,
                                          lossless = False)
             self.update_ui_progress_info("-----------------视频合成完毕-----------------")
             output_path = os.path.abspath(os.path.dirname(os.path.dirname(os.path.dirname(__file__)))) + "\\workspace\\result.mp4"

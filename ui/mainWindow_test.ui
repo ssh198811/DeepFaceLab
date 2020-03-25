@@ -96,7 +96,7 @@ color: rgb(85, 170, 255);</string>
      </rect>
     </property>
     <property name="currentIndex">
-     <number>0</number>
+     <number>2</number>
     </property>
     <widget class="QWidget" name="tab">
      <attribute name="title">
@@ -218,7 +218,7 @@ color: rgb(85, 170, 255);</string>
         <rect>
          <x>10</x>
          <y>80</y>
-         <width>92</width>
+         <width>81</width>
          <height>151</height>
         </rect>
        </property>
@@ -256,7 +256,7 @@ color: rgb(85, 170, 255);</string>
       <widget class="QWidget" name="layoutWidget">
        <property name="geometry">
         <rect>
-         <x>130</x>
+         <x>100</x>
          <y>80</y>
          <width>451</width>
          <height>151</height>
@@ -437,7 +437,7 @@ color: rgb(85, 170, 255);</string>
         <rect>
          <x>10</x>
          <y>20</y>
-         <width>111</width>
+         <width>81</width>
          <height>51</height>
         </rect>
        </property>
@@ -461,9 +461,9 @@ color: rgb(85, 170, 255);</string>
       <widget class="QWidget" name="layoutWidget">
        <property name="geometry">
         <rect>
-         <x>130</x>
+         <x>100</x>
          <y>20</y>
-         <width>341</width>
+         <width>371</width>
          <height>51</height>
         </rect>
        </property>
@@ -530,7 +530,7 @@ color: rgb(85, 170, 255);</string>
         <rect>
          <x>10</x>
          <y>50</y>
-         <width>101</width>
+         <width>71</width>
          <height>21</height>
         </rect>
        </property>
@@ -547,7 +547,7 @@ color: rgb(85, 170, 255);</string>
       <widget class="QWidget" name="layoutWidget">
        <property name="geometry">
         <rect>
-         <x>130</x>
+         <x>100</x>
          <y>50</y>
          <width>341</width>
          <height>21</height>
@@ -1069,64 +1069,13 @@ color: rgb(85, 170, 255);</string>
      <attribute name="title">
       <string>视频合成</string>
      </attribute>
-     <widget class="QLabel" name="label_12">
-      <property name="geometry">
-       <rect>
-        <x>10</x>
-        <y>20</y>
-        <width>91</width>
-        <height>31</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>模型路径</string>
-      </property>
-     </widget>
-     <widget class="QLineEdit" name="le_model_path">
-      <property name="enabled">
-       <bool>true</bool>
-      </property>
-      <property name="geometry">
-       <rect>
-        <x>110</x>
-        <y>20</y>
-        <width>391</width>
-        <height>31</height>
-       </rect>
-      </property>
-      <property name="sizePolicy">
-       <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
-        <horstretch>0</horstretch>
-        <verstretch>0</verstretch>
-       </sizepolicy>
-      </property>
-      <property name="focusPolicy">
-       <enum>Qt::StrongFocus</enum>
-      </property>
-      <property name="readOnly">
-       <bool>true</bool>
-      </property>
-     </widget>
-     <widget class="QPushButton" name="pushButton_6">
-      <property name="geometry">
-       <rect>
-        <x>510</x>
-        <y>20</y>
-        <width>81</width>
-        <height>21</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>选择模型</string>
-      </property>
-     </widget>
      <widget class="QWidget" name="layoutWidget">
       <property name="geometry">
        <rect>
         <x>10</x>
-        <y>60</y>
-        <width>121</width>
-        <height>131</height>
+        <y>10</y>
+        <width>91</width>
+        <height>111</height>
        </rect>
       </property>
       <layout class="QVBoxLayout" name="verticalLayout_7">
@@ -1166,10 +1115,10 @@ color: rgb(85, 170, 255);</string>
      <widget class="QWidget" name="layoutWidget">
       <property name="geometry">
        <rect>
-        <x>140</x>
-        <y>60</y>
-        <width>361</width>
-        <height>131</height>
+        <x>110</x>
+        <y>10</y>
+        <width>391</width>
+        <height>111</height>
        </rect>
       </property>
       <layout class="QVBoxLayout" name="verticalLayout_8">
@@ -1224,37 +1173,297 @@ color: rgb(85, 170, 255);</string>
        </item>
       </layout>
      </widget>
-     <widget class="QPushButton" name="pushButton_7">
+     <widget class="QLabel" name="label_21">
       <property name="geometry">
        <rect>
-        <x>510</x>
-        <y>100</y>
-        <width>79</width>
+        <x>20</x>
+        <y>250</y>
+        <width>71</width>
         <height>21</height>
        </rect>
       </property>
-      <property name="toolTip">
-       <string>使用当前已经训练好的模型，把剑三虚拟角色的脸部特征替换到目标图片的人脸上</string>
-      </property>
       <property name="text">
-       <string>1.逐帧合成</string>
+       <string>目标视频路径</string>
       </property>
      </widget>
-     <widget class="QPushButton" name="pushButton_2">
+     <widget class="QLineEdit" name="le_dst_video_path">
       <property name="geometry">
        <rect>
-        <x>510</x>
-        <y>140</y>
-        <width>79</width>
+        <x>110</x>
+        <y>250</y>
+        <width>389</width>
         <height>21</height>
        </rect>
       </property>
-      <property name="toolTip">
-       <string>将最终生成的替换后的图片合成为视频文件</string>
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
       </property>
-      <property name="text">
-       <string>2.合成视频</string>
+      <property name="focusPolicy">
+       <enum>Qt::NoFocus</enum>
       </property>
+      <property name="readOnly">
+       <bool>true</bool>
+      </property>
+     </widget>
+     <widget class="QWidget" name="">
+      <property name="geometry">
+       <rect>
+        <x>20</x>
+        <y>150</y>
+        <width>56</width>
+        <height>61</height>
+       </rect>
+      </property>
+      <layout class="QVBoxLayout" name="verticalLayout_5">
+       <item>
+        <widget class="QLabel" name="label_12">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="text">
+          <string>模型路径</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="label_24">
+         <property name="text">
+          <string>合成设备选择</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="">
+      <property name="geometry">
+       <rect>
+        <x>110</x>
+        <y>150</y>
+        <width>391</width>
+        <height>61</height>
+       </rect>
+      </property>
+      <layout class="QVBoxLayout" name="verticalLayout_16">
+       <item>
+        <widget class="QLineEdit" name="le_model_path">
+         <property name="enabled">
+          <bool>true</bool>
+         </property>
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="focusPolicy">
+          <enum>Qt::NoFocus</enum>
+         </property>
+         <property name="readOnly">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_5">
+         <item>
+          <widget class="QRadioButton" name="rb_merge_device_use_cpu">
+           <property name="text">
+            <string>CPU</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QRadioButton" name="rb_merge_device_use_gpu">
+           <property name="text">
+            <string>GPU</string>
+           </property>
+           <property name="checked">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <spacer name="horizontalSpacer_3">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>40</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+        </layout>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="">
+      <property name="geometry">
+       <rect>
+        <x>160</x>
+        <y>280</y>
+        <width>261</width>
+        <height>22</height>
+       </rect>
+      </property>
+      <layout class="QHBoxLayout" name="horizontalLayout_4">
+       <item>
+        <spacer name="horizontalSpacer_6">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>40</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item>
+        <widget class="QPushButton" name="pushButton_8">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="text">
+          <string>选择视频</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <spacer name="horizontalSpacer_5">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>40</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item>
+        <widget class="QPushButton" name="pushButton_2">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="toolTip">
+          <string>将最终生成的替换后的图片合成为视频文件</string>
+         </property>
+         <property name="text">
+          <string>合成视频</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <spacer name="horizontalSpacer_4">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>40</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="">
+      <property name="geometry">
+       <rect>
+        <x>160</x>
+        <y>220</y>
+        <width>261</width>
+        <height>22</height>
+       </rect>
+      </property>
+      <layout class="QHBoxLayout" name="horizontalLayout_6">
+       <item>
+        <spacer name="horizontalSpacer_7">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>40</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item>
+        <widget class="QPushButton" name="pushButton_6">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="text">
+          <string>选择模型</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <spacer name="horizontalSpacer_8">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>40</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item>
+        <widget class="QPushButton" name="pushButton_7">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="toolTip">
+          <string>使用当前已经训练好的模型，把剑三虚拟角色的脸部特征替换到目标图片的人脸上</string>
+         </property>
+         <property name="text">
+          <string>逐帧合成</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <spacer name="horizontalSpacer_9">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>40</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+      </layout>
      </widget>
     </widget>
    </widget>
@@ -1521,7 +1730,7 @@ color: rgb(85, 170, 255);</string>
    <hints>
     <hint type="sourcelabel">
      <x>591</x>
-     <y>457</y>
+     <y>467</y>
     </hint>
     <hint type="destinationlabel">
      <x>160</x>
@@ -1536,8 +1745,8 @@ color: rgb(85, 170, 255);</string>
    <slot>merge_result()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>550</x>
-     <y>197</y>
+     <x>231</x>
+     <y>340</y>
     </hint>
     <hint type="destinationlabel">
      <x>91</x>
@@ -1552,8 +1761,8 @@ color: rgb(85, 170, 255);</string>
    <slot>merge_video()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>593</x>
-     <y>237</y>
+     <x>361</x>
+     <y>340</y>
     </hint>
     <hint type="destinationlabel">
      <x>31</x>
@@ -1681,7 +1890,7 @@ color: rgb(85, 170, 255);</string>
    <hints>
     <hint type="sourcelabel">
      <x>561</x>
-     <y>122</y>
+     <y>147</y>
     </hint>
     <hint type="destinationlabel">
      <x>543</x>
@@ -1696,8 +1905,8 @@ color: rgb(85, 170, 255);</string>
    <slot>update_src()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>129</x>
-     <y>119</y>
+     <x>183</x>
+     <y>114</y>
     </hint>
     <hint type="destinationlabel">
      <x>12</x>
@@ -1712,8 +1921,8 @@ color: rgb(85, 170, 255);</string>
    <slot>update_src()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>230</x>
-     <y>119</y>
+     <x>272</x>
+     <y>114</y>
     </hint>
     <hint type="destinationlabel">
      <x>9</x>
@@ -1728,8 +1937,8 @@ color: rgb(85, 170, 255);</string>
    <slot>update_src()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>331</x>
-     <y>119</y>
+     <x>360</x>
+     <y>114</y>
     </hint>
     <hint type="destinationlabel">
      <x>10</x>
@@ -1744,8 +1953,8 @@ color: rgb(85, 170, 255);</string>
    <slot>update_src()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>432</x>
-     <y>119</y>
+     <x>449</x>
+     <y>114</y>
     </hint>
     <hint type="destinationlabel">
      <x>4</x>
@@ -1761,7 +1970,7 @@ color: rgb(85, 170, 255);</string>
    <hints>
     <hint type="sourcelabel">
      <x>589</x>
-     <y>117</y>
+     <y>227</y>
     </hint>
     <hint type="destinationlabel">
      <x>12</x>
@@ -1776,8 +1985,8 @@ color: rgb(85, 170, 255);</string>
    <slot>go_to_src(QPoint)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>470</x>
-     <y>149</y>
+     <x>440</x>
+     <y>169</y>
     </hint>
     <hint type="destinationlabel">
      <x>639</x>
@@ -1808,8 +2017,8 @@ color: rgb(85, 170, 255);</string>
    <slot>go_to_dst_merge(QPoint)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>495</x>
-     <y>156</y>
+     <x>465</x>
+     <y>101</y>
     </hint>
     <hint type="destinationlabel">
      <x>637</x>
@@ -1824,12 +2033,28 @@ color: rgb(85, 170, 255);</string>
    <slot>go_to_result(QPoint)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>487</x>
-     <y>190</y>
+     <x>457</x>
+     <y>130</y>
     </hint>
     <hint type="destinationlabel">
      <x>533</x>
      <y>813</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_8</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>ChooseDstDir()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>565</x>
+     <y>251</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>626</x>
+     <y>311</y>
     </hint>
    </hints>
   </connection>
