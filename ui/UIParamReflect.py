@@ -71,4 +71,5 @@ class GlobalConfig:
     ffmpeg_cmd_path = ""
     ffprobe_cmd_path = ""
 
+    b_sync_block_op_in_progress = False # 正在进行一个同步阻塞的操作
     b_training_call_in_progress = False

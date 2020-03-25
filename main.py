@@ -16,7 +16,7 @@ class Mythread(QThread):
     # 定义信号
     _signal_progress_info = pyqtSignal()
 
-    _signal_train_button_ctrl = pyqtSignal()
+    _signal_button_ctrl = pyqtSignal()
 
     def __init__(self):
         super(Mythread, self).__init__()
@@ -24,7 +24,7 @@ class Mythread(QThread):
         while True:
             # 发出信号
             self._signal_progress_info.emit()
-            self._signal_train_button_ctrl.emit()
+            self._signal_button_ctrl.emit()
             # 让程序休眠
             time.sleep(1.5)
 
@@ -520,6 +520,7 @@ if __name__ == "__main__":
                         cpu_only=False)
 
             InfoNotifier.InfoNotifier.g_progress_info.append("-----------------单帧合成图片完毕-----------------")
+            UIParamReflect.GlobalConfig.b_sync_block_op_in_progress = False
             QApplication.processEvents()
 
             self._signal_update_dst_info.emit()
@@ -536,7 +537,7 @@ if __name__ == "__main__":
             # thread running
             self.thread = Mythread()
             self.thread._signal_progress_info.connect(self.update_progress_info)
-            self.thread._signal_train_button_ctrl.connect(self.update_train_button_state)
+            self.thread._signal_button_ctrl.connect(self.update_button_state)
             self.thread.start()
 
             self.init_dir()
@@ -717,24 +718,47 @@ if __name__ == "__main__":
         def update_ui_progress_info(self, info = ""):
             self.ui.progress_view.append(info)
 
-        def update_train_button_state(self):
-            if UIParamReflect.GlobalConfig.b_training_call_in_progress is True:
+        def update_button_state(self):
+            if UIParamReflect.GlobalConfig.b_sync_block_op_in_progress is True: # 全局进行一个同步阻塞操作
+                self.ui.pushButton_5.setEnabled(False)
+                self.ui.pb_open_data_dst_dir.setEnabled(False)
+                self.ui.pushButton_3.setEnabled(False)
+                self.ui.pushButton_4.setEnabled(False)
                 self.ui.pushButton.setEnabled(False)
                 self.ui.pb_save.setEnabled(False)
                 self.ui.pb_end.setEnabled(False)
+                self.ui.pushButton_6.setEnabled(False)
+                self.ui.pushButton_7.setEnabled(False)
+                self.ui.pushButton_2.setEnabled(False)
             else:
+                self.ui.pushButton_5.setEnabled(True)
+                self.ui.pb_open_data_dst_dir.setEnabled(True)
+                self.ui.pushButton_3.setEnabled(True)
+                self.ui.pushButton_4.setEnabled(True)
                 self.ui.pushButton.setEnabled(True)
                 self.ui.pb_save.setEnabled(True)
                 self.ui.pb_end.setEnabled(True)
+                self.ui.pushButton_6.setEnabled(True)
+                self.ui.pushButton_7.setEnabled(True)
+                self.ui.pushButton_2.setEnabled(True)
 
-                if UIParamReflect.UIParam2Config.train_state == 0:
-                    self.ui.pushButton.setEnabled(True)
+                if UIParamReflect.GlobalConfig.b_training_call_in_progress is True:
+                    self.ui.pushButton.setEnabled(False)
                     self.ui.pb_save.setEnabled(False)
                     self.ui.pb_end.setEnabled(False)
-                elif UIParamReflect.UIParam2Config.train_state == 1:
-                    self.ui.pushButton.setEnabled(False)
+                else:
+                    self.ui.pushButton.setEnabled(True)
                     self.ui.pb_save.setEnabled(True)
                     self.ui.pb_end.setEnabled(True)
+
+                    if UIParamReflect.UIParam2Config.train_state == 0:
+                        self.ui.pushButton.setEnabled(True)
+                        self.ui.pb_save.setEnabled(False)
+                        self.ui.pb_end.setEnabled(False)
+                    elif UIParamReflect.UIParam2Config.train_state == 1:
+                        self.ui.pushButton.setEnabled(False)
+                        self.ui.pb_save.setEnabled(True)
+                        self.ui.pb_end.setEnabled(True)
 
         def StartTrain(self):
             if self.validate(type = "train") is False:
@@ -879,6 +903,7 @@ if __name__ == "__main__":
             from mainscripts import VideoEd
             VideoEd.extract_video(input_path, output_path, output_ext, fps)
 
+        ### 从目标视频中提取图像 ###
         def extract_dst_video(self):
             input_file = self.ui.le_data_dst_path.text()
 
@@ -901,14 +926,18 @@ if __name__ == "__main__":
 
             fps = 0
             self.update_ui_progress_info("\n-----------------开始提取视频帧-----------------")
+            UIParamReflect.GlobalConfig.b_sync_block_op_in_progress = True
             QApplication.processEvents()
             self.extract_dst_video_real(input_file, output_dir, output_ext, fps)
             self.update_ui_progress_info("\n-----------------提取视频帧完毕-----------------")
 
             #更新一下信息
-            self.update_ui_dst_info() 
+            self.update_ui_dst_info()
+            UIParamReflect.GlobalConfig.b_sync_block_op_in_progress = False
 
+        ### 从文件系统中选择一个视频文件 ###
         def ChooseDstDir(self):
+
             fileName_choose, filetype = QFileDialog.getOpenFileName(self, "选取文件",
                                                                     self.cwd,  # 起始路径
                                                                     "MP4 Files (*.mp4);;AVI Files (*.avi);;FLV Files (*.flv)")  # 设置文件扩展名过滤,用双分号间隔
@@ -918,7 +947,10 @@ if __name__ == "__main__":
             self.ui.le_data_dst_path.setText(fileName_choose)
             InfoNotifier.InfoNotifier.g_progress_info.append("选择视频路径:" + fileName_choose)
 
+
+        ### 从文件系统中选择一个模型文件 ###
         def ChooseModelDir(self):
+
             model_path_choose, filetype = QFileDialog.getOpenFileName(self, "选取文件",
                                                                     self.cwd + "\\workspace\\model",  # 起始路径
                                                                     "model Files (*_data.dat)")  # 设置文件扩展名过滤,用双分号间隔
@@ -949,6 +981,7 @@ if __name__ == "__main__":
             self.update_ui_progress_info("-----------------开始提取人脸图像------------------")
             self.update_ui_progress_info(f"人脸图像提取路径: {self.dst_dir}")
             self.update_ui_progress_info(f"人脸图像输出路径: {self.dst_align_dir}")
+            UIParamReflect.GlobalConfig.b_sync_block_op_in_progress = True
             QApplication.processEvents()
             osex.set_process_lowest_prio()
             from mainscripts import Extractor
@@ -966,17 +999,18 @@ if __name__ == "__main__":
             self.update_ui_progress_info("-----------------人脸图像提取完毕-----------------")
             #更新一下信息
             self.update_ui_dst_info()
+            UIParamReflect.GlobalConfig.b_sync_block_op_in_progress = False
 
         def extract_j3_face(self):
             self.update_ui_progress_info("-----------------开始提取剑三人脸图像-----------------")
             self.update_src()
             self.update_ui_progress_info(f"人脸图像提取路径: {self.src_dir}")
-
             if self.src_file_png_count == 0 and self.src_file_jpg_count == 0 :
                 self.update_ui_progress_info("人脸图像提取路径下不存在剑三原始数据，请先确认数据存在，再继续操作！")
                 return
 
             self.update_ui_progress_info(f"人脸图像输出路径: {self.src_align_dir}")
+            UIParamReflect.GlobalConfig.b_sync_block_op_in_progress = True
             QApplication.processEvents()
 
 
@@ -994,13 +1028,16 @@ if __name__ == "__main__":
                            )
             self.update_ui_progress_info("-----------------人脸剑三图像提取完毕-----------------")
             #更新一下信息
+            UIParamReflect.GlobalConfig.b_sync_block_op_in_progress = False
             self.update_ui_src_info()
+
 
         def merge_src_to_dst(self):
             if self.validate(type = "mergePic") is False:
                 return
 
             self.update_ui_progress_info("\n-----------------开始逐帧替换人脸-----------------")
+            UIParamReflect.GlobalConfig.b_sync_block_op_in_progress = True
             QApplication.processEvents()
             self.mergeThread = My_merge_thread()
             self.mergeThread._signal_update_dst_info.connect(self.update_ui_dst_info)
@@ -1013,7 +1050,8 @@ if __name__ == "__main__":
         def merge_to_mp4(self):
             if self.validate(type = "mergeVideo") is False:
                 return
-
+            
+            UIParamReflect.GlobalConfig.b_sync_block_op_in_progress = True
             self.update_ui_progress_info("-----------------开始合成最终视频-----------------")
             QApplication.processEvents()
             osex.set_process_lowest_prio()
@@ -1029,6 +1067,7 @@ if __name__ == "__main__":
             self.update_ui_progress_info("-----------------视频合成完毕-----------------")
             output_path = os.path.abspath(os.path.dirname(os.path.dirname(os.path.dirname(__file__)))) + "\\workspace\\result.mp4"
             self.update_ui_progress_info(f"视频输出路径为:{output_path} ")
+            UIParamReflect.GlobalConfig.b_sync_block_op_in_progress = False
             QApplication.processEvents()
 
         def merge_result(self):
