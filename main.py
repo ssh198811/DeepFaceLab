@@ -723,7 +723,7 @@ if __name__ == "__main__":
             self.ui.progress_view.append(info)
 
         def update_button_state(self):
-            if UIParamReflect.GlobalConfig.b_sync_block_op_in_progress is True: # 全局进行一个同步阻塞操作
+            if UIParamReflect.GlobalConfig.b_sync_block_op_in_progress is True or UIParamReflect.GlobalConfig.b_training_call_in_progress is True: # 全局进行一个同步阻塞操作
                 self.ui.pushButton_5.setEnabled(False)
                 self.ui.pb_open_data_dst_dir.setEnabled(False)
                 self.ui.pushButton_3.setEnabled(False)
@@ -735,44 +735,31 @@ if __name__ == "__main__":
                 self.ui.pushButton_7.setEnabled(False)
                 self.ui.pushButton_2.setEnabled(False)
                 self.ui.pushButton_8.setEnabled(False)
-            else:
-                self.ui.pushButton_5.setEnabled(True)
-                self.ui.pb_open_data_dst_dir.setEnabled(True)
-                self.ui.pushButton_3.setEnabled(True)
-                self.ui.pushButton_4.setEnabled(True)
-                self.ui.pushButton.setEnabled(True)
-                self.ui.pb_save.setEnabled(True)
-                self.ui.pb_end.setEnabled(True)
-                self.ui.pushButton_6.setEnabled(True)
-                self.ui.pushButton_7.setEnabled(True)
-                self.ui.pushButton_2.setEnabled(True)
-                self.ui.pushButton_8.setEnabled(True)
-
-                if UIParamReflect.GlobalConfig.b_training_call_in_progress is True:
+            else :
+                if UIParamReflect.UIParam2Config.train_state == 0:
+                    self.ui.pushButton_5.setEnabled(True)
+                    self.ui.pb_open_data_dst_dir.setEnabled(True)
+                    self.ui.pushButton_3.setEnabled(True)
+                    self.ui.pushButton_4.setEnabled(True)
+                    self.ui.pushButton.setEnabled(True)
+                    self.ui.pb_save.setEnabled(False)
+                    self.ui.pb_end.setEnabled(False)
+                    self.ui.pushButton_6.setEnabled(True)
+                    self.ui.pushButton_7.setEnabled(True)
+                    self.ui.pushButton_2.setEnabled(True)
+                    self.ui.pushButton_8.setEnabled(True)
+                elif UIParamReflect.UIParam2Config.train_state == 1:
                     self.ui.pushButton_5.setEnabled(False)
                     self.ui.pb_open_data_dst_dir.setEnabled(False)
                     self.ui.pushButton_3.setEnabled(False)
                     self.ui.pushButton_4.setEnabled(False)
                     self.ui.pushButton.setEnabled(False)
-                    self.ui.pb_save.setEnabled(False)
-                    self.ui.pb_end.setEnabled(False)
+                    self.ui.pb_save.setEnabled(True)
+                    self.ui.pb_end.setEnabled(True)
                     self.ui.pushButton_6.setEnabled(False)
                     self.ui.pushButton_7.setEnabled(False)
                     self.ui.pushButton_2.setEnabled(False)
                     self.ui.pushButton_8.setEnabled(False)
-                else:
-                    self.ui.pushButton.setEnabled(True)
-                    self.ui.pb_save.setEnabled(True)
-                    self.ui.pb_end.setEnabled(True)
-
-                    if UIParamReflect.UIParam2Config.train_state == 0:
-                        self.ui.pushButton.setEnabled(True)
-                        self.ui.pb_save.setEnabled(False)
-                        self.ui.pb_end.setEnabled(False)
-                    elif UIParamReflect.UIParam2Config.train_state == 1:
-                        self.ui.pushButton.setEnabled(False)
-                        self.ui.pb_save.setEnabled(True)
-                        self.ui.pb_end.setEnabled(True)
 
         def StartTrain(self):
             if self.validate(type = "train") is False:
