@@ -704,7 +704,7 @@ class Ui_MainWindow(object):
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
-        MainWindow.setWindowTitle(_translate("MainWindow", "剑三订制换脸工具V1.0.2"))
+        MainWindow.setWindowTitle(_translate("MainWindow", "剑网三换脸定制版 beta v1.0.0"))
         self.groupBox_4.setTitle(_translate("MainWindow", "操作进度"))
         self.groupBox_7.setTitle(_translate("MainWindow", "第一步,选择要替换的剑三标准脸"))
         self.label_13.setText(_translate("MainWindow", "剑三脸型选择"))

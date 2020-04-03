@@ -38,7 +38,7 @@
    <enum>Qt::CustomContextMenu</enum>
   </property>
   <property name="windowTitle">
-   <string>剑三订制换脸工具V1.0.2</string>
+   <string>剑网三换脸定制版 beta v1.0.0</string>
   </property>
   <property name="styleSheet">
    <string notr="true"/>
@@ -1507,8 +1507,8 @@ color: rgb(85, 170, 255);</string>
    <slot>StartTrain()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>265</x>
-     <y>485</y>
+     <x>211</x>
+     <y>486</y>
     </hint>
     <hint type="destinationlabel">
      <x>97</x>
@@ -1539,8 +1539,8 @@ color: rgb(85, 170, 255);</string>
    <slot>modelSelect()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>156</x>
-     <y>218</y>
+     <x>131</x>
+     <y>176</y>
     </hint>
     <hint type="destinationlabel">
      <x>222</x>
@@ -1555,8 +1555,8 @@ color: rgb(85, 170, 255);</string>
    <slot>modelSelect()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>156</x>
-     <y>193</y>
+     <x>131</x>
+     <y>176</y>
     </hint>
     <hint type="destinationlabel">
      <x>181</x>
@@ -1603,8 +1603,8 @@ color: rgb(85, 170, 255);</string>
    <slot>AlgoSelect()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>243</x>
-     <y>105</y>
+     <x>131</x>
+     <y>116</y>
     </hint>
     <hint type="destinationlabel">
      <x>195</x>
@@ -1619,8 +1619,8 @@ color: rgb(85, 170, 255);</string>
    <slot>AlgoSelect()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>351</x>
-     <y>105</y>
+     <x>131</x>
+     <y>116</y>
     </hint>
     <hint type="destinationlabel">
      <x>189</x>
@@ -1635,8 +1635,8 @@ color: rgb(85, 170, 255);</string>
    <slot>DeviceSelect()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>353</x>
-     <y>267</y>
+     <x>355</x>
+     <y>256</y>
     </hint>
     <hint type="destinationlabel">
      <x>403</x>
@@ -1667,8 +1667,8 @@ color: rgb(85, 170, 255);</string>
    <slot>SaveOnce()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>344</x>
-     <y>485</y>
+     <x>211</x>
+     <y>486</y>
     </hint>
     <hint type="destinationlabel">
      <x>305</x>
@@ -1683,8 +1683,8 @@ color: rgb(85, 170, 255);</string>
    <slot>StopTrain()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>422</x>
-     <y>485</y>
+     <x>211</x>
+     <y>486</y>
     </hint>
     <hint type="destinationlabel">
      <x>484</x>
@@ -1715,8 +1715,8 @@ color: rgb(85, 170, 255);</string>
    <slot>EditDstDir()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>356</x>
-     <y>358</y>
+     <x>221</x>
+     <y>376</y>
     </hint>
     <hint type="destinationlabel">
      <x>288</x>
@@ -1763,8 +1763,8 @@ color: rgb(85, 170, 255);</string>
    <slot>merge_result()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>231</x>
-     <y>340</y>
+     <x>383</x>
+     <y>307</y>
     </hint>
     <hint type="destinationlabel">
      <x>91</x>
@@ -1779,8 +1779,8 @@ color: rgb(85, 170, 255);</string>
    <slot>merge_video()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>361</x>
-     <y>340</y>
+     <x>383</x>
+     <y>378</y>
     </hint>
     <hint type="destinationlabel">
      <x>31</x>
@@ -1795,8 +1795,8 @@ color: rgb(85, 170, 255);</string>
    <slot>modelSelect()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>221</x>
-     <y>328</y>
+     <x>131</x>
+     <y>336</y>
     </hint>
     <hint type="destinationlabel">
      <x>439</x>
@@ -1811,8 +1811,8 @@ color: rgb(85, 170, 255);</string>
    <slot>modelSelect()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>221</x>
-     <y>353</y>
+     <x>131</x>
+     <y>336</y>
     </hint>
     <hint type="destinationlabel">
      <x>460</x>
@@ -1827,8 +1827,8 @@ color: rgb(85, 170, 255);</string>
    <slot>modelSelect()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>221</x>
-     <y>378</y>
+     <x>131</x>
+     <y>336</y>
     </hint>
     <hint type="destinationlabel">
      <x>486</x>
@@ -1843,8 +1843,8 @@ color: rgb(85, 170, 255);</string>
    <slot>DeviceSelect()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>421</x>
-     <y>427</y>
+     <x>423</x>
+     <y>416</y>
     </hint>
     <hint type="destinationlabel">
      <x>351</x>
@@ -1875,8 +1875,8 @@ color: rgb(85, 170, 255);</string>
    <slot>modelNameEdit()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>431</x>
-     <y>351</y>
+     <x>391</x>
+     <y>356</y>
     </hint>
     <hint type="destinationlabel">
      <x>329</x>
@@ -1891,8 +1891,8 @@ color: rgb(85, 170, 255);</string>
    <slot>modelNameEdit()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>431</x>
-     <y>381</y>
+     <x>391</x>
+     <y>386</y>
     </hint>
     <hint type="destinationlabel">
      <x>351</x>
@@ -1923,8 +1923,8 @@ color: rgb(85, 170, 255);</string>
    <slot>update_src()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>183</x>
-     <y>114</y>
+     <x>131</x>
+     <y>126</y>
     </hint>
     <hint type="destinationlabel">
      <x>12</x>
@@ -1939,8 +1939,8 @@ color: rgb(85, 170, 255);</string>
    <slot>update_src()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>272</x>
-     <y>114</y>
+     <x>131</x>
+     <y>126</y>
     </hint>
     <hint type="destinationlabel">
      <x>9</x>
@@ -1955,8 +1955,8 @@ color: rgb(85, 170, 255);</string>
    <slot>update_src()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>360</x>
-     <y>114</y>
+     <x>131</x>
+     <y>126</y>
     </hint>
     <hint type="destinationlabel">
      <x>10</x>
@@ -1971,8 +1971,8 @@ color: rgb(85, 170, 255);</string>
    <slot>update_src()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>449</x>
-     <y>114</y>
+     <x>131</x>
+     <y>126</y>
     </hint>
     <hint type="destinationlabel">
      <x>4</x>
@@ -1987,8 +1987,8 @@ color: rgb(85, 170, 255);</string>
    <slot>ChooseModelDir()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>589</x>
-     <y>227</y>
+     <x>276</x>
+     <y>288</y>
     </hint>
     <hint type="destinationlabel">
      <x>12</x>
@@ -2003,8 +2003,8 @@ color: rgb(85, 170, 255);</string>
    <slot>go_to_src(QPoint)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>440</x>
-     <y>169</y>
+     <x>221</x>
+     <y>186</y>
     </hint>
     <hint type="destinationlabel">
      <x>639</x>
@@ -2019,8 +2019,8 @@ color: rgb(85, 170, 255);</string>
    <slot>go_to_src_align(QPoint)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>548</x>
-     <y>244</y>
+     <x>221</x>
+     <y>186</y>
     </hint>
     <hint type="destinationlabel">
      <x>635</x>
@@ -2067,8 +2067,8 @@ color: rgb(85, 170, 255);</string>
    <slot>ChooseDstDir()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>565</x>
-     <y>251</y>
+     <x>276</x>
+     <y>368</y>
     </hint>
     <hint type="destinationlabel">
      <x>626</x>
