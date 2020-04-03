@@ -663,7 +663,7 @@ class Ui_MainWindow(object):
         MainWindow.setStatusBar(self.statusbar)
 
         self.retranslateUi(MainWindow)
-        self.tabWidget.setCurrentIndex(2)
+        self.tabWidget.setCurrentIndex(0)
         self.pushButton.clicked.connect(MainWindow.StartTrain)
         self.rb_last_model_sae.toggled['bool'].connect(MainWindow.modelSelect)
         self.rb_new_model_sae.toggled['bool'].connect(MainWindow.modelSelect)
