@@ -14,7 +14,7 @@ class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
         MainWindow.setEnabled(True)
-        MainWindow.resize(1060, 543)
+        MainWindow.resize(1062, 550)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -587,9 +587,11 @@ class Ui_MainWindow(object):
         self.horizontalLayout_5 = QtWidgets.QHBoxLayout()
         self.horizontalLayout_5.setObjectName("horizontalLayout_5")
         self.rb_merge_device_use_cpu = QtWidgets.QRadioButton(self.layoutWidget19)
+        self.rb_merge_device_use_cpu.setEnabled(False)
         self.rb_merge_device_use_cpu.setObjectName("rb_merge_device_use_cpu")
         self.horizontalLayout_5.addWidget(self.rb_merge_device_use_cpu)
         self.rb_merge_device_use_gpu = QtWidgets.QRadioButton(self.layoutWidget19)
+        self.rb_merge_device_use_gpu.setEnabled(False)
         self.rb_merge_device_use_gpu.setChecked(True)
         self.rb_merge_device_use_gpu.setObjectName("rb_merge_device_use_gpu")
         self.horizontalLayout_5.addWidget(self.rb_merge_device_use_gpu)
@@ -655,7 +657,7 @@ class Ui_MainWindow(object):
         self.tabWidget.addTab(self.tab_3, "")
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
-        self.menubar.setGeometry(QtCore.QRect(0, 0, 1060, 18))
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 1062, 18))
         self.menubar.setObjectName("menubar")
         MainWindow.setMenuBar(self.menubar)
         self.statusbar = QtWidgets.QStatusBar(MainWindow)
@@ -704,7 +706,7 @@ class Ui_MainWindow(object):
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
-        MainWindow.setWindowTitle(_translate("MainWindow", "剑网三换脸定制版 beta v1.0.0"))
+        MainWindow.setWindowTitle(_translate("MainWindow", "剑网3 换脸定制版 beta v1.0.0"))
         self.groupBox_4.setTitle(_translate("MainWindow", "操作进度"))
         self.groupBox_7.setTitle(_translate("MainWindow", "第一步,选择要替换的剑三标准脸"))
         self.label_13.setText(_translate("MainWindow", "剑三脸型选择"))

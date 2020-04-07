@@ -9,8 +9,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1060</width>
-    <height>543</height>
+    <width>1062</width>
+    <height>550</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -38,7 +38,7 @@
    <enum>Qt::CustomContextMenu</enum>
   </property>
   <property name="windowTitle">
-   <string>剑网三换脸定制版 beta v1.0.0</string>
+   <string>剑网3 换脸定制版 beta v1.0.0</string>
   </property>
   <property name="styleSheet">
    <string notr="true"/>
@@ -1291,6 +1291,9 @@ color: rgb(85, 170, 255);</string>
         <layout class="QHBoxLayout" name="horizontalLayout_5">
          <item>
           <widget class="QRadioButton" name="rb_merge_device_use_cpu">
+           <property name="enabled">
+            <bool>false</bool>
+           </property>
            <property name="text">
             <string>CPU</string>
            </property>
@@ -1298,6 +1301,9 @@ color: rgb(85, 170, 255);</string>
          </item>
          <item>
           <widget class="QRadioButton" name="rb_merge_device_use_gpu">
+           <property name="enabled">
+            <bool>false</bool>
+           </property>
            <property name="text">
             <string>GPU</string>
            </property>
@@ -1491,7 +1497,7 @@ color: rgb(85, 170, 255);</string>
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1060</width>
+     <width>1062</width>
      <height>18</height>
     </rect>
    </property>

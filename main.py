@@ -582,6 +582,7 @@ if __name__ == "__main__":
             dst_align_file_count = 0
             src_align_file_count = 0
             dst_merge_file_count = 0
+            self.modelSelect()
 
             for filepath in pathex.get_file_paths(self.dst_align_dir):
                 filepath_name = filepath.name
@@ -602,6 +603,10 @@ if __name__ == "__main__":
                 if dst_align_file_count is 0 or src_align_file_count is 0:
                     reply = QMessageBox.information(self,   "操作提示", "不存在可训练的数据，请检查data_dst/aligned和data_src/(xxx)/aligned目录",QMessageBox.Ok)
                     return False
+                if UIParamReflect.UIParam2Config.bUseLastModel == False:
+                    if UIParamReflect.UIParam2Config.modelname == "":
+                        reply = QMessageBox.information(self,   "操作提示", "模型命名不符合规则，请输入只包含英文字母或数字的字符串",QMessageBox.Ok)
+                        return False
 
             if type is "mergePic":
                  if self.ui.le_model_path.text() is "":
@@ -843,6 +848,14 @@ if __name__ == "__main__":
                     UIParamReflect.UIParam2Config.modelname = self.ui.le_new_model_name_quick96.text()
                 if self.ui.rb_old_model_quick96.isChecked():
                     UIParamReflect.UIParam2Config.modelname = self.ui.le_old_model_name_quick96.text()
+
+            if UIParamReflect.UIParam2Config.modelname.isalnum() == False:
+                self.update_ui_progress_info("-----------------模型名只能包含字母或数字不能包含其他字符-----------------")
+                UIParamReflect.UIParam2Config.modelname = ""
+                self.ui.le_new_model_name_sae.setText("")
+                self.ui.le_old_model_name_sae.setText("")
+                self.ui.le_new_model_name_quick96.setText("")
+                self.ui.le_old_model_name_quick96.setText("")
 
         def AlgoSelect(self):
             if self.ui.rb_use_SAE.isChecked():
