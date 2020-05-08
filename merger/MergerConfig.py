@@ -216,10 +216,12 @@ class MergerConfigMasked(MergerConfig):
 
         if 'raw' not in self.mode:
             if self.mode == 'hist-match':
-                self.masked_hist_match = io.input_bool("Masked hist match?", True)
+                #self.masked_hist_match = io.input_bool("Masked hist match?", True)
+                self.masked_hist_match = UIParamReflect.UIParam2Config.masked_hist_match
 
             if self.mode == 'hist-match' or self.mode == 'seamless-hist-match':
-                self.hist_match_threshold = np.clip ( io.input_int("Hist match threshold", 255, add_info="0..255"), 0, 255)
+                #self.hist_match_threshold = np.clip ( io.input_int("Hist match threshold", 255, add_info="0..255"), 0, 255)
+                self.hist_match_threshold = UIParamReflect.UIParam2Config.hist_match_threshold
 
         if self.face_type == FaceType.FULL:
             s = """Choose mask mode: \n"""

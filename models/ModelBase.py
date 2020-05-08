@@ -293,7 +293,7 @@ class ModelBase(object):
     # 暂时屏蔽override提示
     def ask_override(self):
         # return self.is_training and selfn.iter != 0 and io.input_in_time ("Press enter in 2 seconds to override model settings.", 5 if io.is_colab() else 2 )
-        return False
+        return True
 
 
     def ask_autobackup_hour(self):

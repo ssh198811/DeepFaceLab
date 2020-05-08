@@ -9,6 +9,9 @@ import operator
 from ui import InfoNotifier
 from ui import UIParamReflect
 
+import cv2
+import numpy as np
+from PIL import Image
 import qdarkstyle
 import os
 
@@ -939,7 +942,7 @@ if __name__ == "__main__":
             output_ext = "jpg"
             self.update_ui_progress_info("\n图像格式:" + output_ext)
 
-            fps = 0
+            fps = 1
             self.update_ui_progress_info("\n-----------------开始提取视频帧-----------------")
             UIParamReflect.GlobalConfig.b_sync_block_op_in_progress = True
             QApplication.processEvents()
@@ -1135,6 +1138,74 @@ if __name__ == "__main__":
             action = menu.exec_(self.ui.le_result_dir.mapToGlobal(pos))
             if action == opt:
                 QDesktopServices.openUrl(QUrl.fromLocalFile(self.result_dir))
+
+
+        ### 去除图片高光 ###
+        def create_mask(self, imgpath):
+            image = cv2.imread(imgpath, cv2.IMREAD_GRAYSCALE)
+            _, mask = cv2.threshold(image, 175, 240, cv2.THRESH_BINARY)
+            return mask
+
+
+        def xiufu(self, imgpath, maskpath):
+            src_ = cv2.imread(imgpath)
+            mask = cv2.imread(maskpath, cv2.IMREAD_GRAYSCALE)
+            height_src, width_src = src_.shape[:2]
+            height_mask, width_mask = mask.shape[:2]
+            # 缩放因子(fx,fy)
+            res_ = cv2.resize(src_, (width_src, height_src), None, fx=0.0, fy=0.0, interpolation=cv2.INTER_CUBIC)
+            mask = cv2.resize(mask, (width_mask, height_mask), None, fx=0.0, fy=0.0, interpolation=cv2.INTER_CUBIC)
+
+            dst = cv2.inpaint(res_, mask, 10, cv2.INPAINT_NS)
+            return dst
+
+
+        # def process_dst_align_highlight(self):
+        #     rootpath = self.dst_dir
+        #     masksavepath = rootpath+"\\hmask"
+        #     savepath = rootpath+"\\hremove"
+        #     imgfiles = os.listdir(rootpath)
+        #     for i in range(0, len(imgfiles)):
+        #         path = os.path.join(rootpath, imgfiles[i])
+        #         print(imgfiles[i])
+        #         if os.path.isfile(path):
+        #             if (imgfiles[i].endswith("jpg") or imgfiles[i].endswith("JPG")):
+        #                 maskpath = os.path.join(masksavepath, "mask_" + imgfiles[i])
+        #                 cv2.imwrite(maskpath, self.create_mask(path))
+        #                 dst = self.xiufu(path, maskpath)
+        #                 newname = imgfiles[i].split(".")[0]
+        #                 cv2.imwrite(os.path.join(savepath, newname + ".jpg"), dst)
+        ### 去除图片高光 ###
+
+        def remove_watermask(self, img, depts, start, end):
+            for i in range(start[0], start[1], depts):
+                for j in range(end[0], end[1], depts):
+                    img[i:i + depts, j:j + depts] = img[i + (depts // 2)][j + (depts // 2)]
+            im2 = Image.fromarray(img.astype("uint8"))
+            return im2
+
+        def process_dst_align_highlight(self):
+            rootpath = self.dst_merge_dir
+            savepath = self.dst_dir + "\\hremove"
+            imgfiles = os.listdir(rootpath)
+            for i in range(0, len(imgfiles)):
+                path = os.path.join(rootpath, imgfiles[i])
+                print(imgfiles[i])
+                if os.path.isfile(path):
+                    if (imgfiles[i].endswith("jpg") or imgfiles[i].endswith("JPG")):
+                        im1 = np.array(Image.open(path))
+                        row_im1 = len(im1)
+                        col_im1 = len(im1[0])
+                        for col in range(780,1080):
+                            for row in range(1820,1920):
+                                im1[row,col] = [220,228,231]
+
+                        newimg = Image.fromarray(im1)
+                        newname = imgfiles[i].split(".")[0]
+                        newimg.save(os.path.join(savepath, newname + ".jpg"))
+
+
+
 
 
     QApplication.setAttribute(Qt.AA_EnableHighDpiScaling)

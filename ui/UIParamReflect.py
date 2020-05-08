@@ -25,7 +25,7 @@ class UIParam2Config:
     write_preview_his = False
     target_itor = 0
     flip_faces = True
-    batch_size = 4
+    batch_size = 8
     Resolution = 128
     face_type = "f"
     ae_arch = "liaehd"
@@ -33,8 +33,8 @@ class UIParam2Config:
     encoder_dim = 64
     decoder_dim = 64
     decoder_mask_dim = 22
-    learn_mask = True
-    eyes_priority = False
+    learn_mask = False
+    eyes_priority = True
     place_models_and_optimizer_on_GPU = True
     use_learning_rate_dropout = False
     enable_random_warp_of_samples = False
@@ -42,28 +42,29 @@ class UIParam2Config:
     true_face_power = 0.0
     face_style_power = 0.0
     background_style_power = 0.0
-    color_transfer_for_src_faceset = "idt"
+    color_transfer_for_src_faceset = "none"
     enable_gradient_clipping = True
     enable_pretrain_model = False
+
 
     #merge pic
     merge_model_name = ""
     b_use_interactive_merger = False
-    merger_mode = 3
+    merger_mode = 3 #0:'original', 1:'overlay',2:'hist-match',3:'seamless', 4:'seamless-hist-match', 5:'raw-rgb'
     masked_hist_match = True
-    hist_match_threshold = 255
-    mask_mode = 5 #fan-prd + fan-dst
-    erode_mask_modifier = 30
-    blur_mask_modifier = 15
-    motion_blur_power = 0
+    hist_match_threshold = 200
+    mask_mode = 6 #fan-prd + fan-dst
+    erode_mask_modifier = 15
+    blur_mask_modifier = 100
+    motion_blur_power = 0 #0-100
     output_face_scale = 0
-    color_transfer_mode = "idt"
+    color_transfer_mode = "idt"  # {None:0, "rct":1, "lct":2, "mkl":3, "mkl-m":4, "idt":5, "idt-m":6, "sot-m":7, "mix-m":8 }
     super_resolution_power = 100
     image_denoise_power = 0
     bicubic_degrade_power = 0
     color_degrade_power = 0
-    sharpen_mode = 0
-    sharpen_amount = 0
+    sharpen_mode = 0 # {0:"None", 1:'box', 2:'gaussian'}
+    sharpen_amount = 0 # -100 ~ 100
 
     #merge video
     bit_rate = 16
